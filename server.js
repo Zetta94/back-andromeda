@@ -8,6 +8,7 @@ const nuevaRuta = require('./routes/nuevaRuta');
 const app = express();
 const puerto = 3000;
 
+app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('',nuevaRuta)

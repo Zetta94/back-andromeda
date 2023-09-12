@@ -5,7 +5,7 @@ const path = require('path');
 
 //Ruta para guardar crear nueva
 router.post('/', (req, res) => {
-  const nuevaCarpeta = req.query.nombreCarpeta || 'carpetaNuevaManu';
+  const nuevaCarpeta = req.body.appName|| 'carpetaNuevaManu';
 
   const carpetaOriginal = 'C:/Workspace/automatizador/tatitos';
   const rutaNuevaCarpeta = path.join('C:/Workspace/automatizador/', nuevaCarpeta);

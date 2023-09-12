@@ -7,16 +7,12 @@ const path = require('path');
 router.put('/', async (req, res) => {
   try {
     const { nombreCarpeta,nombre, slug, expoProjectId } = req.body;
-    console.log('Valor de nombreCarpeta:', nombreCarpeta);
-    console.log('Valor de nombre:', nombre);
-    console.log('Valor de slug:', slug);
-    console.log('Valor de expoProjectId:', expoProjectId);
 
     // Ruta relativa al archivo Config.json (solo el nombre de la carpeta)
     const rutaRelativa = path.join(nombreCarpeta, 'Config.json');
 
     // Ruta completa al archivo Config.json basada en la ubicación actual del archivo
-    const rutaArchivo = path.join(__dirname, '..', 'C:/Workspace/automatizador', rutaRelativa); // Ajusta la ruta según la ubicación real de tu archivo
+    const rutaArchivo = path.join('C:/Workspace/automatizador', rutaRelativa); // Ajusta la ruta según la ubicación real de tu archivo
 
     // Lee el contenido actual del archivo
     const contenidoActual = await fs.readJson(rutaArchivo);

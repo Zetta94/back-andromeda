@@ -49,6 +49,5 @@ app.post('/crearNuevaApp', async (req, res) => {
   }
 });
 
-// No se crea el servidor aquí, solo la ruta.
 
 module.exports = app;

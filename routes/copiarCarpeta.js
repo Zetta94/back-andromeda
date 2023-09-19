@@ -3,9 +3,9 @@ const router = express.Router();
 const fs = require('fs-extra');
 const path = require('path');
 
-//Ruta para guardar crear nueva
+//Ruta para guardar o crear nueva carpeta
 router.post('/', (req, res) => {
-  const nuevaCarpeta = req.body.appName|| 'carpetaNuevaManu';
+  const nuevaCarpeta = req.body.appName|| 'CarpetaNueva';
 
   const carpetaOriginal = 'C:/Workspace/automatizador/tatitos';
   const rutaNuevaCarpeta = path.join('C:/Workspace/automatizador/', nuevaCarpeta);

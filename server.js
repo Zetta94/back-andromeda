@@ -5,6 +5,8 @@ const copiarCarpetaRouter = require('./routes/copiarCarpeta');
 const uploadRouter = require('./routes/insertarFotos');
 const editarConfigRouter = require('./routes/editarConfig');
 const nuevaRuta = require('./routes/nuevaRuta');
+const expo = require ('./routes/expo');
+const firebase = require ('./routes/firebase');
 
 const app = express();
 const puerto = 3001;
@@ -19,6 +21,8 @@ app.use('', nuevaRuta);
 app.use('/copiar-carpeta', copiarCarpetaRouter);
 app.use('/insertar-foto', uploadRouter);
 app.use('/editar-config', editarConfigRouter);
+app.use('/expo',expo);
+app.use('/firebase,firebase');
 
 app.listen(puerto, () => {
   console.log(`Servidor escuchando en el puerto ${puerto}`);

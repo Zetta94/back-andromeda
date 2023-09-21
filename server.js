@@ -1,9 +1,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const cors = require('cors'); // Importa el módulo cors
+const cors = require('cors'); 
+//Rutas
 const copiarCarpetaRouter = require('./routes/copiarCarpeta');
 const uploadRouter = require('./routes/insertarFotos');
 const editarConfigRouter = require('./routes/editarConfig');
+const editarConfigIDRouter = require('./routes/editarConfigID');
 const nuevaRuta = require('./routes/nuevaRuta');
 const expo = require ('./routes/expo');
 const firebase = require ('./routes/firebase');
@@ -13,16 +15,16 @@ const puerto = 3001;
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
-// Habilita CORS para todas las rutas
 app.use(cors());
 
 app.use('', nuevaRuta);
 app.use('/copiar-carpeta', copiarCarpetaRouter);
 app.use('/insertar-foto', uploadRouter);
-app.use('/editar-config', editarConfigRouter);
+app.use('/editar-configjson', editarConfigRouter);
+app.use('/editar-configID',editarConfigIDRouter);
 app.use('/expo',expo);
-app.use('/firebase,firebase');
+app.use('/firebase', firebase);
+
 
 app.listen(puerto, () => {
   console.log(`Servidor escuchando en el puerto ${puerto}`);

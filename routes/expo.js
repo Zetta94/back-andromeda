@@ -1,60 +1,45 @@
 const express = require('express');
-const { execSync } = require('child_process');
 const router = express.Router();
-const fs = require('fs');
-const path = require('path');
-const axios = require('axios');
+const { exec } = require('child_process');
+require('dotenv').config();
 
-router.post('/', async (req, res) => {
-  const proyectoNombre = req.body.nombre;
+const userexpo = process.env.EXPO_USERNAME;
+const passexpo = process.env.EXPO_PASSWORD;
 
-  if (!proyectoNombre) {
-    return res.status(400).json({ error: 'Se requiere un nombre de proyecto en el cuerpo de la solicitud.' });
+router.post('/', (req, res) => {
+  const { nombre, slug } = req.body;
+
+  if (!nombre || !slug) {
+    return res.status(400).send('No se recibieron nombre y slug correctamnente');
   }
 
-  const expoUsername = 'usuario'; 
-  const expoPassword = 'contraseña'; 
+  
+  const loginCommand = `expo login -u ${userexpo} -p ${passexpo}`;
 
-  // Autenticación en Expo
-  try {
-    const authResponse = await axios.post('https://expo.io/--/api/v2/auth/login', {
-      username: expoUsername,
-      password: expoPassword,
-    });
-    const authToken = authResponse.data.data.token;
+ 
+  const createProjectCommand = `expo init ${nombre} slug ${slug}`;
 
-    // Verificar si el proyecto ya existe
-    const proyectoDirectorio = path.join(__dirname, proyectoNombre);
-
-    if (!fs.existsSync(proyectoDirectorio)) {
-      try {
-        console.log(`Creando el proyecto: ${proyectoNombre}`);
-        execSync(`expo init ${proyectoNombre}`, { stdio: 'inherit' });
-        console.log(`Proyecto creado: ${proyectoNombre}`);
-
-        // Obtener projectId después de crear el proyecto
-        const { data } = await axios.get(`https://expo.io/--/api/v2/project/${proyectoNombre}`, {
-          headers: {
-            Authorization: `Bearer ${authToken}`,
-          },
-        });
-
-        const projectId = data.projectId;
-
-        
-        res.status(201).json({ projectId });
-      } catch (error) {
-        console.error(`Error al crear el proyecto: ${error.message}`);
-        res.status(500).json({ error: 'Error al crear el proyecto.' });
-      }
-    } else {
-      console.log(`El proyecto ${proyectoNombre} ya existe.`);
-      res.status(200).json({ message: `El proyecto ${proyectoNombre} ya existe.` });
+  // Ejecutar el comando de inicio de sesión
+  exec(loginCommand, (error, stdout, stderr) => {
+    if (error) {
+      console.error(`Error al iniciar sesión en Expo.dev: ${error.message}`);
+      return res.status(500).send(`Error al iniciar sesión en Expo.dev: ${error.message}`);
     }
-  } catch (error) {
-    console.error(`Error al autenticarse en Expo: ${error.message}`);
-    res.status(500).json({ error: 'Error al autenticarse en Expo.' });
-  }
+    
+    // Ejecutar el comando para crear el proyecto después de iniciar sesión
+    exec(createProjectCommand, (createError, createStdout, createStderr) => {
+      if (createError) {
+        console.error(`Error al crear el proyecto: ${createError.message}`);
+        return res.status(500).send(`Error al crear el proyecto: ${createError.message}`);
+      }
+
+      // Extraer el projectId del resultado del comando de creación del proyecto
+      const projectId = createStdout.match(/Project ID: (.*)/)[1];
+
+      console.log(`Proyecto creado con éxito. Project ID: ${projectId}`);
+      res.send(`Proyecto creado con éxito. Project ID: ${projectId}`);
+    });
+  });
 });
 
 module.exports = router;

@@ -19,7 +19,7 @@ router.post('/', async (req, res) => {
     }
 
     // Asegúrate de que la carpeta de destino exista, si no, créala
-    const rutaCarpetaDestino = path.join(__dirname, '..', '..', nombreCarpeta, 'icons');
+    const rutaCarpetaDestino = path.join("C:/Workspace/andromeda-app/apps/", nombreCarpeta, 'icons');
     if (!fs.existsSync(rutaCarpetaDestino)) {
       fs.mkdirSync(rutaCarpetaDestino, { recursive: true });
     }

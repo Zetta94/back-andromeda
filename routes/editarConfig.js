@@ -8,9 +8,11 @@ router.put('/', async (req, res) => {
   try {
     const { nombreCarpeta,nombre, slug, expoProjectId } = req.body;
 
+    console.log(slug)
+
     const rutaRelativa = path.join(nombreCarpeta, 'Config.json');
 
-    const rutaArchivo = path.join('C:/Workspace/automatizador', rutaRelativa); 
+    const rutaArchivo = path.join('C:/Workspace/andromeda-app/apps/', rutaRelativa); 
 
     const contenidoActual = await fs.readJson(rutaArchivo);
 

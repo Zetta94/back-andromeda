@@ -7,7 +7,7 @@ const uploadRouter = require('./routes/insertarFotos');
 const editarConfigRouter = require('./routes/editarConfig');
 const editarConfigIDRouter = require('./routes/editarConfigID');
 const nuevaRuta = require('./routes/nuevaRuta');
-const expo = require ('./routes/expo');
+const expoRouter = require ('./routes/expo');
 const firebase = require ('./routes/firebase');
 
 const app = express();
@@ -22,7 +22,7 @@ app.use('/copiar-carpeta', copiarCarpetaRouter);
 app.use('/insertar-foto', uploadRouter);
 app.use('/editar-configjson', editarConfigRouter);
 app.use('/editar-configID',editarConfigIDRouter);
-app.use('/expo',expo);
+app.use('/expo',expoRouter);
 app.use('/firebase', firebase);
 
 

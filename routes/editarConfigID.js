@@ -9,7 +9,7 @@ router.put('/', async (req, res) => {
     const { nombreCarpeta, institucion_id, url_api } = req.body;
 
     const rutaRelativa = path.join(nombreCarpeta, 'Config.js');
-    const rutaArchivo = path.join('C:/Workspace/automatizador', rutaRelativa);
+    const rutaArchivo = path.join('C:/Workspace/andromeda-app/apps/', rutaRelativa);
 
     let contenidoActual = await fs.readFile(rutaArchivo, 'utf-8');
     
